@@ -1,5 +1,6 @@
 package ru.library.springcourse.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.Cascade;
@@ -41,6 +42,7 @@ public class Person {
             org.hibernate.annotations.CascadeType.PERSIST,
             org.hibernate.annotations.CascadeType.MERGE,
     org.hibernate.annotations.CascadeType.REFRESH})
+    @JsonIgnore
     private List<Book>books;
 
     @Column(name = "login")

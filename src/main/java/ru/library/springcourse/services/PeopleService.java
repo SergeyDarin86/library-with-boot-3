@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.library.springcourse.models.Person;
 import ru.library.springcourse.repositories.PeopleRepository;
 import ru.library.springcourse.securuty.PersonDetails;
+import ru.library.springcourse.util.PersonNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,12 @@ public class PeopleService {
         System.out.println("=============================================");
 
         return peopleRepository.findById(personId).orElse(null);
+    }
+
+    public Person showWithException(int personId){
+        log.info("Start method show(id) for peopleService, id is: {}", personId);
+
+        return peopleRepository.findById(personId).orElseThrow(PersonNotFoundException::new);
     }
 
     public Optional<Person> show(String fullName){
