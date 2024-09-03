@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  postgresqldb:
+#    build:
+#      context: ./
+#      dockerfile: db/Dockerfile
+    image: postgres:13.3
+    restart: unless-stopped
+    networks:
+      - library-network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=16s11w86d
+      - POSTGRES_DB=library_book
+    ports:
+        - 5432:5432
+    volumes:
+      - ./initSql:/docker-entrypoint-initdb.d
+  app:
+    depends_on:
+      -   postgresqldb
+    build:
+      context: .
+    networks:
+      - library-network
+    ports:
+      - 8080:8080
+    environment:
+      - spring_jpa_properties_hibernate_dialect=org.hibernate.dialect.PostgreSQLDialect
+      - spring_mvc_hiddenmethod_filter_enabled=true
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/library_book
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=16s11w86d
+      - spring_datasource.driver-classname=org.postgresql.Driver
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  library-network:
+    driver: bridge
