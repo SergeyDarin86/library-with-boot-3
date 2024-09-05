@@ -33,6 +33,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=16s11w86d
       - spring_datasource.driver-classname=org.postgresql.Driver
+      - spring_jpa_properties_hibernate_boot_allow_jdbc_metadata_access=false
     volumes:
       - .m2:/root/.m2
     stdin_open: true
